@@ -191,11 +191,14 @@ export function ExamForm({ formSchema, examType, resultData }: ExamFormProps) {
   const zodSchema = useMemo(() => buildZodSchema(formSchema), [formSchema]);
 
   const defaultValues = useMemo(() => {
+    const today = new Date().toISOString().split('T')[0];
     const values: Record<string, string> = {};
     for (const field of allFields) {
       const existingVal = resultData?.[field.name];
       if (existingVal !== undefined && existingVal !== null && existingVal !== '') {
         values[field.name] = String(existingVal);
+      } else if (field.name === 'sampleDate' && !resultData) {
+        values[field.name] = today;
       } else {
         values[field.name] = '';
       }
@@ -217,6 +220,7 @@ export function ExamForm({ formSchema, examType, resultData }: ExamFormProps) {
       const dataToSave: Record<string, unknown> = {
         examType: examTypeSpanish[examType] || examType,
         createdBy: user?.id || null,
+        date: new Date().toISOString().split('T')[0],
       };
 
       for (const field of allFields) {
@@ -266,10 +270,14 @@ export function ExamForm({ formSchema, examType, resultData }: ExamFormProps) {
               <p className="text-sm text-muted-foreground">{formSchema.description}</p>
             )}
           </CardHeader>
-          <CardContent className="space-y-4">
-            {formSchema.fields.map(field => (
-              <FormFieldRenderer key={field.name} field={field} control={control} setValue={setValue} />
-            ))}
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {formSchema.fields.map(field => (
+                <div key={field.name} className={field.type === 'textarea' ? 'md:col-span-2' : ''}>
+                  <FormFieldRenderer field={field} control={control} setValue={setValue} />
+                </div>
+              ))}
+            </div>
           </CardContent>
         </Card>
 
@@ -283,10 +291,14 @@ export function ExamForm({ formSchema, examType, resultData }: ExamFormProps) {
                   {section.title}
                   <ChevronDown className="h-4 w-4 transition-transform duration-200 group-data-[state=open]:rotate-180" />
                 </CollapsibleTrigger>
-                <CollapsibleContent className="p-4 pt-0 space-y-4">
-                  {section.fields.map(field => (
-                    <FormFieldRenderer key={field.name} field={field} control={control} setValue={setValue} />
-                  ))}
+                <CollapsibleContent className="p-4 pt-0">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {section.fields.map(field => (
+                      <div key={field.name} className={field.type === 'textarea' ? 'md:col-span-2' : ''}>
+                        <FormFieldRenderer field={field} control={control} setValue={setValue} />
+                      </div>
+                    ))}
+                  </div>
                 </CollapsibleContent>
               </Collapsible>
             );
@@ -295,9 +307,13 @@ export function ExamForm({ formSchema, examType, resultData }: ExamFormProps) {
           return (
             <div key={section.title} className="space-y-4">
               <h3 className="text-lg font-semibold">{section.title}</h3>
-              {section.fields.map(field => (
-                <FormFieldRenderer key={field.name} field={field} control={control} setValue={setValue} />
-              ))}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {section.fields.map(field => (
+                  <div key={field.name} className={field.type === 'textarea' ? 'md:col-span-2' : ''}>
+                    <FormFieldRenderer field={field} control={control} setValue={setValue} />
+                  </div>
+                ))}
+              </div>
             </div>
           );
         })}

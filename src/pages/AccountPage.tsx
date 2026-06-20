@@ -7,7 +7,7 @@ export default function AccountSettingsPage() {
   const navigate = useNavigate();
 
   return (
-    <div className="max-w-3xl space-y-6">
+    <div className="max-w-3xl mx-auto space-y-6">
       <div>
         <h2 className="text-2xl font-semibold tracking-tight">Configuracion de Cuenta</h2>
         <p className="text-sm text-muted-foreground">

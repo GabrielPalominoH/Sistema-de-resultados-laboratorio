@@ -94,7 +94,7 @@ export default function EditExamPage() {
   }
 
   return (
-    <div className="space-y-6 max-w-3xl">
+    <div className="space-y-6 max-w-3xl mx-auto">
       <div className="space-y-1">
         <h1 className="text-2xl font-bold tracking-tight">{pageTitle}</h1>
         <p className="text-sm text-muted-foreground">Modifique los campos del formulario y guarde los cambios.</p>

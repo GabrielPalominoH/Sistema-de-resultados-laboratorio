@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { SidebarProvider, Sidebar, SidebarInset } from '@/components/ui/sidebar'
 import { TooltipProvider } from '@/components/ui/tooltip'
@@ -51,24 +51,37 @@ export default function App() {
   const { user } = useAuth()
   const [checkingFirstRun, setCheckingFirstRun] = useState(true)
   const [isFirstRun, setIsFirstRun] = useState(false)
+  const firstRunChecked = useRef(false)
 
   useEffect(() => {
+    // User is logged in → normal routes, no first-run
     if (user) {
+      setIsFirstRun(false)
       setCheckingFirstRun(false)
       return
     }
 
+    // Already checked earlier in this session → users exist, show login
+    if (firstRunChecked.current) {
+      setIsFirstRun(false)
+      setCheckingFirstRun(false)
+      return
+    }
+
+    // First time: check if any users exist in the database
     let cancelled = false
     hasUsers()
       .then((exists) => {
         if (!cancelled) {
+          firstRunChecked.current = true
           setIsFirstRun(!exists)
           setCheckingFirstRun(false)
         }
       })
       .catch(() => {
-        // If the check fails, assume there are users (show normal login)
+        // On error, assume users exist and show login
         if (!cancelled) {
+          firstRunChecked.current = true
           setIsFirstRun(false)
           setCheckingFirstRun(false)
         }
@@ -84,112 +97,112 @@ export default function App() {
   return (
     <TooltipProvider>
       <Routes>
-        {/* First-run registration (no users in DB) */}
-        {isFirstRun && (
-          <Route path="*" element={<FirstRunPage />} />
+        {/* First-run: everything redirects to registration */}
+        {isFirstRun ? (
+          <>
+            <Route path="*" element={<FirstRunPage />} />
+          </>
+        ) : (
+          <>
+            {/* Normal auth routes */}
+            <Route
+              path="/login"
+              element={user ? <Navigate to="/dashboard" replace /> : <LoginPage />}
+            />
+            <Route
+              path="/dashboard"
+              element={
+                <ProtectedRoute>
+                  <DashboardLayout>
+                    <DashboardPage />
+                  </DashboardLayout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/dashboard/results"
+              element={
+                <ProtectedRoute>
+                  <DashboardLayout>
+                    <ResultsListPage />
+                  </DashboardLayout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/dashboard/results/:id"
+              element={
+                <ProtectedRoute>
+                  <DashboardLayout>
+                    <ResultDetailPage />
+                  </DashboardLayout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/dashboard/exam/:slug"
+              element={
+                <ProtectedRoute>
+                  <DashboardLayout>
+                    <NewExamPage />
+                  </DashboardLayout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/dashboard/exam/:slug/:id/edit"
+              element={
+                <ProtectedRoute>
+                  <DashboardLayout>
+                    <EditExamPage />
+                  </DashboardLayout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/dashboard/metrics"
+              element={
+                <ProtectedRoute>
+                  <DashboardLayout>
+                    <MetricsPage />
+                  </DashboardLayout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/dashboard/users"
+              element={
+                <ProtectedRoute>
+                  <DashboardLayout>
+                    <UsersPage />
+                  </DashboardLayout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/dashboard/account"
+              element={
+                <ProtectedRoute>
+                  <DashboardLayout>
+                    <AccountPage />
+                  </DashboardLayout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/dashboard/account/password"
+              element={
+                <ProtectedRoute>
+                  <DashboardLayout>
+                    <AccountPasswordPage />
+                  </DashboardLayout>
+                </ProtectedRoute>
+              }
+            />
+            <Route path="/" element={<Navigate to="/dashboard" replace />} />
+            <Route path="*" element={<Navigate to="/dashboard" replace />} />
+          </>
         )}
-
-        {/* Normal auth routes */}
-        <Route
-          path="/login"
-          element={user ? <Navigate to="/dashboard" replace /> : <LoginPage />}
-        />
-        <Route
-          path="/first-run"
-          element={isFirstRun ? <FirstRunPage /> : <Navigate to="/login" replace />}
-        />
-        <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute>
-              <DashboardLayout>
-                <DashboardPage />
-              </DashboardLayout>
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/dashboard/results"
-          element={
-            <ProtectedRoute>
-              <DashboardLayout>
-                <ResultsListPage />
-              </DashboardLayout>
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/dashboard/results/:id"
-          element={
-            <ProtectedRoute>
-              <DashboardLayout>
-                <ResultDetailPage />
-              </DashboardLayout>
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/dashboard/exam/:slug"
-          element={
-            <ProtectedRoute>
-              <DashboardLayout>
-                <NewExamPage />
-              </DashboardLayout>
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/dashboard/exam/:slug/:id/edit"
-          element={
-            <ProtectedRoute>
-              <DashboardLayout>
-                <EditExamPage />
-              </DashboardLayout>
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/dashboard/metrics"
-          element={
-            <ProtectedRoute>
-              <DashboardLayout>
-                <MetricsPage />
-              </DashboardLayout>
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/dashboard/users"
-          element={
-            <ProtectedRoute>
-              <DashboardLayout>
-                <UsersPage />
-              </DashboardLayout>
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/dashboard/account"
-          element={
-            <ProtectedRoute>
-              <DashboardLayout>
-                <AccountPage />
-              </DashboardLayout>
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/dashboard/account/password"
-          element={
-            <ProtectedRoute>
-              <DashboardLayout>
-                <AccountPasswordPage />
-              </DashboardLayout>
-            </ProtectedRoute>
-          }
-        />
-        <Route path="/" element={<Navigate to="/dashboard" replace />} />
-        <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Routes>
     </TooltipProvider>
   )

@@ -7,9 +7,9 @@ import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/hooks/use-toast';
 import { useRole } from '@/hooks/use-role';
 import { AdminOnly } from '@/components/role-gate';
-import { getResultById, getSamplesByResultId, deleteSample } from '@/lib/db';
+import { getResultById, getSamplesByResultId, deleteSample, getAllUsers } from '@/lib/db';
 import { getExamTypeSlug, hasMultipleSamples } from '@/lib/exam-config';
-import type { LabResult, ExamSample, FormFieldDefinition } from '@/lib/definitions';
+import type { LabResult, ExamSample, FormFieldDefinition, UserProfile } from '@/lib/definitions';
 import bioquimicoForm from '@/lib/forms/bioquimico.json';
 import deteccionSangreOcultaForm from '@/lib/forms/deteccion-sangre-oculta.json';
 import examenGeneralForm from '@/lib/forms/examen-general.json';
@@ -65,6 +65,7 @@ export default function ResultDetailPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [samples, setSamples] = useState<ExamSample[]>([]);
   const [expandedSamples, setExpandedSamples] = useState<Set<string>>(new Set());
+  const [performerName, setPerformerName] = useState<string>("");
 
   const canEditThisResult = result ? (isAdmin || canEditExam(result.examType)) : false;
   const slug = result ? getExamTypeSlug(result.examType) : null;
@@ -83,6 +84,16 @@ export default function ResultDetailPage() {
       loadSamples();
     }
   }, [result, showSamplesSection]);
+
+  useEffect(() => {
+    if (!result?.createdBy) return;
+    getAllUsers().then((users) => {
+      const user = users.find((u) => u.id === result.createdBy);
+      if (user) {
+        setPerformerName(user.fullName || user.username);
+      }
+    }).catch(() => {});
+  }, [result?.createdBy]);
 
   const loadSamples = async () => {
     if (!result) return;
@@ -278,6 +289,7 @@ export default function ResultDetailPage() {
 
             <ReportFooter
               generatedAt={result.createdAt}
+              performedBy={performerName}
             />
           </div>
         </div>

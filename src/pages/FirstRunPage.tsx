@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '@/lib/auth'
 import { Button } from '@/components/ui/button'
@@ -16,8 +16,13 @@ export default function FirstRunPage() {
   const [confirmPassword, setConfirmPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
-  const { login } = useAuth()
+  const { user, login } = useAuth()
   const navigate = useNavigate()
+
+  // If somehow already logged in, redirect immediately
+  useEffect(() => {
+    if (user) navigate('/dashboard', { replace: true })
+  }, [user, navigate])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()

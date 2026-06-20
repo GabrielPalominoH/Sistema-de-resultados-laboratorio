@@ -43,6 +43,8 @@ import { AdminOnly } from "@/components/role-gate"
 import { useRole } from "@/hooks/use-role"
 import { getExamTypeSlug } from "@/lib/exam-config"
 import * as XLSX from 'xlsx'
+import { save } from '@tauri-apps/plugin-dialog'
+import { invoke } from '@tauri-apps/api/core'
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ImportResultDialog, type ImportedRow } from './import-result-dialog'
 
@@ -58,6 +60,8 @@ export function ResultsDataTable({ data, onDelete }: ResultsDataTableProps) {
   const [dateFrom, setDateFrom] = React.useState("")
   const [dateTo, setDateTo] = React.useState("")
   const [deleteId, setDeleteId] = React.useState<string | null>(null)
+  const [showExportSuccess, setShowExportSuccess] = React.useState(false)
+  const [exportedFileName, setExportedFileName] = React.useState("")
   const navigate = useNavigate();
   const { toast } = useToast();
   const { isAdmin, canEditExam } = useRole();
@@ -208,7 +212,7 @@ export function ResultsDataTable({ data, onDelete }: ResultsDataTableProps) {
     setImportDialogOpen(true)
   }
 
-  const exportToExcel = React.useCallback(() => {
+  const exportToExcel = React.useCallback(async () => {
     const sorted = [...filteredData].sort((a, b) => {
       const dateA = a.date ? new Date(a.date).getTime() : 0;
       const dateB = b.date ? new Date(b.date).getTime() : 0;
@@ -260,7 +264,31 @@ export function ResultsDataTable({ data, onDelete }: ResultsDataTableProps) {
     XLSX.utils.book_append_sheet(wb, ws, 'Resultados');
 
     const dateStr = new Date().toISOString().split('T')[0];
-    XLSX.writeFile(wb, `resultados_${dateStr}.xlsx`);
+    const fileName = `resultados_${dateStr}.xlsx`;
+
+    // Show native save dialog
+    const filePath = await save({
+      filters: [{ name: 'Archivo Excel', extensions: ['xlsx'] }],
+      defaultPath: fileName,
+    });
+
+    if (!filePath) return; // User cancelled
+
+    try {
+      // Write workbook and save to chosen path
+      const base64 = XLSX.write(wb, { bookType: 'xlsx', type: 'base64' }) as string;
+      await invoke('export_excel', { path: filePath, dataBase64: base64 });
+
+      setExportedFileName(fileName);
+      setShowExportSuccess(true);
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Error al exportar",
+        description: error instanceof Error ? error.message : "Error desconocido",
+      });
+      console.error("Export error:", error);
+    }
   }, [filteredData]);
 
   return (
@@ -455,6 +483,22 @@ export function ResultsDataTable({ data, onDelete }: ResultsDataTableProps) {
               className="bg-destructive hover:bg-destructive/90"
             >
               Eliminar
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      <AlertDialog open={showExportSuccess} onOpenChange={setShowExportSuccess}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Exportación exitosa</AlertDialogTitle>
+            <AlertDialogDescription>
+              El archivo <strong>{exportedFileName}</strong> se ha guardado correctamente.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogAction onClick={() => setShowExportSuccess(false)}>
+              Aceptar
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

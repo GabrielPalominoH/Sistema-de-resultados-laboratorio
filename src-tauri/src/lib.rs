@@ -6,6 +6,8 @@ use tauri::Manager;
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
+        .plugin(tauri_plugin_dialog::init())
+        .plugin(tauri_plugin_fs::init())
         .setup(|app| {
             // Set up logging in debug mode
             if cfg!(debug_assertions) {
@@ -52,6 +54,8 @@ pub fn run() {
             commands::samples::get_samples_by_result_id,
             commands::samples::save_sample,
             commands::samples::delete_sample,
+            // Export
+            commands::export::export_excel,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

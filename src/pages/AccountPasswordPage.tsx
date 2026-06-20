@@ -68,7 +68,7 @@ export default function AccountPasswordPage() {
   };
 
   return (
-    <div className="max-w-xl space-y-4">
+    <div className="max-w-xl mx-auto space-y-4">
       <Button variant="outline" onClick={() => navigate('/dashboard/account')}>
         <ArrowLeft className="mr-2 h-4 w-4" />
         Volver a configuracion

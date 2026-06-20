@@ -39,7 +39,7 @@ export default function NewExamPage() {
   }
 
   return (
-    <div className="space-y-6 max-w-3xl">
+    <div className="space-y-6 max-w-3xl mx-auto">
       <div className="space-y-1">
         <h1 className="text-2xl font-bold tracking-tight">{pageTitle}</h1>
         <p className="text-sm text-muted-foreground">Complete los campos del formulario para generar un nuevo reporte.</p>

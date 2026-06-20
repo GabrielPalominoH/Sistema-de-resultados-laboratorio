@@ -3,12 +3,12 @@ use tauri::State;
 
 fn row_to_lab_result(row: &sqlx::sqlite::SqliteRow) -> serde_json::Value {
     let data_str: Option<String> = row.get(10);
-    let data: Option<serde_json::Value> = match data_str {
+    let extra_data: Option<serde_json::Value> = match data_str {
         Some(s) if !s.is_empty() => serde_json::from_str(&s).ok(),
         _ => None,
     };
 
-    serde_json::json!({
+    let mut result = serde_json::json!({
         "id": row.get::<String, _>(0),
         "patientName": row.get::<String, _>(1),
         "patientId": row.get::<String, _>(2),
@@ -19,11 +19,26 @@ fn row_to_lab_result(row: &sqlx::sqlite::SqliteRow) -> serde_json::Value {
         "hcn": row.get::<Option<String>, _>(7),
         "phone": row.get::<Option<String>, _>(8),
         "resultado": row.get::<Option<String>, _>(9),
-        "data": data,
+        "data": extra_data,
         "createdBy": row.get::<Option<String>, _>(11),
         "createdAt": row.get::<Option<String>, _>(12),
         "updatedAt": row.get::<Option<String>, _>(13),
-    })
+    });
+
+    // Spread data fields to top level so frontend can access them directly
+    let data_entries: Vec<(String, serde_json::Value)> = result
+        .get("data")
+        .and_then(|d| d.as_object())
+        .map(|obj| obj.iter().map(|(k, v)| (k.clone(), v.clone())).collect())
+        .unwrap_or_default();
+
+    if let Some(result_obj) = result.as_object_mut() {
+        for (k, v) in data_entries {
+            result_obj.insert(k, v);
+        }
+    }
+
+    result
 }
 
 #[tauri::command]
