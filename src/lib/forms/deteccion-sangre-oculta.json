@@ -1,0 +1,33 @@
+{
+  "title": "Detección Cualitativa de Sangre Oculta en Heces",
+  "description": "Test de Inmunoensayo Cromatografico para detección de sangre oculta en heces.",
+  "fields": [
+    { "name": "patientName", "label": "Paciente", "type": "text", "placeholder": "Nombre completo del paciente", "required": true },
+    { "name": "patientId", "label": "DNI", "type": "text", "placeholder": "Documento de identidad", "required": true },
+    { "name": "patientAge", "label": "Edad", "type": "number", "placeholder": "Edad del paciente" },
+    { "name": "hcn", "label": "HCN (Historia Clínica)", "type": "text", "placeholder": "Número de historia clínica" },
+    { "name": "sampleDate", "label": "Fecha de Muestra", "type": "date", "required": true },
+    { "name": "phone", "label": "Celular", "type": "text", "placeholder": "Número de celular (whatsapp)", "required": false }
+  ],
+  "sections": [
+    {
+      "title": "Resultado del Test",
+      "fields": [
+        { 
+          "name": "resultado", 
+          "label": "Resultado", 
+          "type": "select", 
+          "options": ["Positivo", "Negativo"], 
+          "required": true,
+          "placeholder": "Seleccione el resultado"
+        },
+        { 
+          "name": "observaciones", 
+          "label": "Observaciones", 
+          "type": "textarea", 
+          "placeholder": "Observaciones adicionales sobre la muestra o el resultado..."
+        }
+      ]
+    }
+  ]
+}

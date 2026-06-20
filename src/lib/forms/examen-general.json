@@ -1,0 +1,116 @@
+{
+  "title": "Reporte de Examen General",
+  "description": "Ingrese los resultados del examen general del paciente.",
+  "fields": [
+    { "name": "patientName", "label": "Paciente", "type": "text", "placeholder": "Nombre completo del paciente", "required": true },
+    { "name": "patientId", "label": "DNI", "type": "text", "placeholder": "Documento de identidad", "required": true },
+    { "name": "patientAge", "label": "Edad", "type": "number", "placeholder": "Edad del paciente", "required": true },
+    { "name": "hcn", "label": "HCN (Historia Clínica)", "type": "text", "placeholder": "Número de historia clínica", "required": true },
+    { "name": "sampleDate", "label": "Fecha de Muestra", "type": "date", "required": true },
+    { "name": "phone", "label": "Celular", "type": "text", "placeholder": "Número de celular (whatsapp)", "required": false }
+  ],
+  "sections": [
+    {
+      "title": "Hematología",
+      "fields": [
+        { "name": "hemoglobin", "label": "Hemoglobina", "type": "number", "description": "V.N. 12 - 16 g/dl", "suffix": "g/dl" },
+        { "name": "hematocrit", "label": "Hematocrito", "type": "number", "description": "V.N. 36 - 50 %", "suffix": "%" },
+        { "name": "wbcCount", "label": "Recuento de Leucocitos", "type": "number", "description": "V.N. 5.0 - 10.0 /mm3", "suffix": "/mm3" },
+        { "name": "plateletCount", "label": "Rcto. De Plaquetas", "type": "number", "description": "V.N. 150.0 - 450.0 /mm3", "suffix": "/mm3" },
+        { "name": "coagulationTime", "label": "Tiempo de Coagulación", "type": "text", "placeholder": "min / seg" },
+        { "name": "bleedingTime", "label": "Tiempo de Sangría", "type": "text", "placeholder": "min / seg" },
+        { "name": "esr", "label": "V.S.G.", "type": "number", "description": "Velocidad de Sedimentación Globular", "suffix": "mm/hr" },
+        { "name": "bloodGroup", "label": "Grupo Sanguíneo", "type": "select", "options": ["A", "B", "AB", "O"] },
+        { "name": "rhFactor", "label": "Factor Rh", "type": "select", "options": ["Positivo", "Negativo"] }
+      ]
+    },
+    {
+      "title": "Fórmula Leucocitaria",
+      "fields": [
+        { "name": "neutrophilsBanded", "label": "Abastonados", "type": "number", "description": "V.N. 0 - 5 %", "suffix": "%" },
+        { "name": "neutrophilsSegmented", "label": "Segmentados", "type": "number", "description": "V.N. 44 - 70 %", "suffix": "%" },
+        { "name": "eosinophils", "label": "Eosinofilos", "type": "number", "description": "V.N. 0 - 5 %", "suffix": "%" },
+        { "name": "basophils", "label": "Basofilos", "type": "number", "description": "V.N. 0 - 2 %", "suffix": "%" },
+        { "name": "monocytes", "label": "Monocitos", "type": "number", "description": "V.N. 3 - 15 %", "suffix": "%" },
+        { "name": "lymphocytes", "label": "Linfocitos", "type": "number", "description": "V.N. 18 - 42 %", "suffix": "%" }
+      ]
+    },
+    {
+      "title": "Bioquímico",
+      "fields": [
+        { "name": "glucose", "label": "Glucosa", "type": "number", "description": "V.N. 70 - 110 mg/dl", "suffix": "mg/dl" },
+        { "name": "triglycerides", "label": "Triglicéridos", "type": "number", "description": "V.N. < 150 mg/dL", "suffix": "mg/dl" },
+        { "name": "cholesterol", "label": "Colesterol", "type": "number", "description": "V.N. < 200 mg/dL", "suffix": "mg/dl" },
+        { "name": "ldl", "label": "L.D.L", "type": "number", "description": "V.N. < 129 mg/dL", "suffix": "mg/dl" },
+        { "name": "hdl", "label": "H.D.L", "type": "number", "description": "V.N. 40 - 60 mg/dL", "suffix": "mg/dl" },
+        { "name": "creatinine", "label": "Creatinina", "type": "number", "description": "Varón: 0.7-1.3 / Mujer: 0.6-1.1", "suffix": "mg/dl" },
+        { "name": "urea", "label": "Urea", "type": "number", "description": "V.N. 20 - 45 mg/dl", "suffix": "mg/dl" },
+        { "name": "uricAcid", "label": "Ácido Úrico", "type": "number", "description": "Varón: 2.5-6.0 / Mujer: 2.5-5.0", "suffix": "mg/dl" },
+        { "name": "amylase", "label": "Amilasa", "type": "number", "description": "V.N. Hasta 125 mg/dl", "suffix": "mg/dl" },
+        { "name": "tgo", "label": "T.G.O.", "type": "number", "description": "Varón: Hasta 38 / Mujer: Hasta 32", "suffix": "U/L" },
+        { "name": "tgp", "label": "T.G.P.", "type": "number", "description": "Varón: Hasta 41 / Mujer: Hasta 31", "suffix": "U/L" },
+        { "name": "bilirubinTotal", "label": "Bilirrubina Total", "type": "number", "description": "V.N. Hasta 1.0 mg/dl", "suffix": "mg/dl" },
+        { "name": "bilirubinDirect", "label": "Bilirrubina Directa", "type": "number", "description": "V.N. Hasta 0.2 mg/dl", "suffix": "mg/dl" },
+        { "name": "bilirubinIndirect", "label": "Bilirrubina Indirecta", "type": "number", "description": "V.N. Hasta 0.8 mg/dl", "suffix": "mg/dl" },
+        { "name": "alkalinePhosphatase", "label": "Fosfatasa Alcalina", "type": "number", "description": "Adultos: 65-300 / Niños: Hasta 645", "suffix": "U/L" }
+      ]
+    },
+    {
+      "title": "Inmunoserológico y Pruebas Rápidas",
+      "fields": [
+        { "name": "agglutinations", "label": "Aglutinaciones", "type": "text", "placeholder": "Tífico H, Tífico O, Paratífico A, Paratífico B, Brucellas" },
+        { "name": "aso", "label": "ASO", "type": "text", "placeholder": "Antiestreptolisina O" },
+        { "name": "rheumatoidFactor", "label": "Factor Reumatoide", "type": "text", "placeholder": "Resultado" },
+        { "name": "crp", "label": "Proteína C Reactiva (PCR)", "type": "text", "placeholder": "Resultado" },
+        { "name": "psaTest", "label": "Prueba rápida de Antígeno Prostático", "type": "text", "placeholder": "Resultado" },
+        { "name": "h-pyloriTest", "label": "Prueba rápida de Helicobacter Pylori", "type": "text", "placeholder": "Resultado" },
+        { "name": "fobTest", "label": "Prueba rápida de Sangre Oculta", "type": "text", "placeholder": "Resultado" },
+        { "name": "pregnancyTest", "label": "Test de Embarazo", "type": "select", "options": ["Sangre", "Orina", "Negativo"] },
+        { "name": "rprVrdl", "label": "RPR / VDRL", "type": "text", "placeholder": "Resultado" },
+        { "name": "hivTest", "label": "VIH", "type": "text", "placeholder": "Resultado" }
+      ]
+    },
+    {
+      "title": "Microbiológico (Examen de Orina)",
+      "fields": [
+        { "name": "urineColor", "label": "Color", "type": "text", "placeholder": "Color de la muestra" },
+        { "name": "urineAspect", "label": "Aspecto", "type": "text", "placeholder": "Aspecto de la muestra" },
+        { "name": "urineDensity", "label": "Densidad", "type": "number", "description": "Densidad urinaria", "suffix": "" },
+        { "name": "urinePh", "label": "pH", "type": "number", "description": "pH urinario", "suffix": "" },
+        { "name": "urineAscorbicAcid", "label": "Ácido Ascórbico", "type": "text", "placeholder": "Resultado" },
+        { "name": "urineBilirubin", "label": "Bilirrubina", "type": "text", "placeholder": "Resultado" },
+        { "name": "urineUrobilinogen", "label": "Urobilinógeno", "type": "text", "placeholder": "Resultado" },
+        { "name": "urineKetones", "label": "Cetonas", "type": "text", "placeholder": "Resultado" },
+        { "name": "urineGlucose", "label": "Glucosa", "type": "text", "placeholder": "Resultado" },
+        { "name": "urineProteins", "label": "Proteínas", "type": "text", "placeholder": "Resultado" },
+        { "name": "urineBlood", "label": "Sangre", "type": "text", "placeholder": "Resultado" },
+        { "name": "urineNitrites", "label": "Nitritos", "type": "text", "placeholder": "Resultado" },
+        { "name": "urineLeukocytes", "label": "Leucocitos", "type": "text", "placeholder": "Resultado" },
+        { "name": "urineEpithelialCells", "label": "Células Epiteliales", "type": "text", "placeholder": "Resultado" },
+        { "name": "urineRbc", "label": "Hematíes", "type": "text", "placeholder": "Resultado" },
+        { "name": "urineWbc", "label": "Leucocitos", "type": "text", "placeholder": "Resultado" },
+        { "name": "urinePiocitos", "label": "Piocitos", "type": "text", "placeholder": "Resultado" },
+        { "name": "urineBacteria", "label": "Bacterias", "type": "text", "placeholder": "Resultado" },
+        { "name": "urineCylinders", "label": "Cilindros", "type": "text", "placeholder": "Resultado" },
+        { "name": "urineCrystals", "label": "Cristales", "type": "text", "placeholder": "Resultado" },
+        { "name": "urineOther", "label": "Otros", "type": "text", "placeholder": "Otros hallazgos" }
+      ]
+    },
+    {
+      "title": "Parasitológico",
+      "fields": [
+        { "name": "parasitologySample1", "label": "Examen Parasitológico - 1ra Muestra", "type": "text", "placeholder": "Resultado 1ra muestra" },
+        { "name": "parasitologySample2", "label": "Examen Parasitológico - 2da Muestra", "type": "text", "placeholder": "Resultado 2da muestra" },
+        { "name": "parasitologySample3", "label": "Examen Parasitológico - 3ra Muestra", "type": "text", "placeholder": "Resultado 3ra muestra" },
+        { "name": "directMethod", "label": "M. Directo / M. Faust", "type": "text", "placeholder": "Resultado" },
+        { "name": "grahamTest", "label": "Test de Graham", "type": "text", "placeholder": "Resultado" }
+      ]
+    },
+    {
+      "title": "Observaciones",
+      "fields": [
+        { "name": "observations", "label": "Observaciones Generales", "type": "textarea", "placeholder": "Anotar cualquier observación relevante sobre la muestra..." }
+      ]
+    }
+  ]
+}

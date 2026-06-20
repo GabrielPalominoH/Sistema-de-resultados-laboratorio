@@ -1,0 +1,37 @@
+{
+  "title": "Reporte de Análisis de Alimentos",
+  "description": "Resultados de análisis clínico general, incluyendo hematología, inmunología y parasitología.",
+  "fields": [
+    { "name": "patientName", "label": "Paciente", "type": "text", "placeholder": "Nombre completo del paciente", "required": true },
+    { "name": "patientId", "label": "DNI", "type": "text", "placeholder": "Documento de identidad", "required": true },
+    { "name": "patientAge", "label": "Edad", "type": "number", "placeholder": "Edad del paciente", "required": true },
+    { "name": "hcn", "label": "HCN (Historia Clínica)", "type": "text", "placeholder": "Número de historia clínica", "required": true },
+    { "name": "sampleDate", "label": "Fecha de Muestra", "type": "date", "required": true },
+    { "name": "phone", "label": "Celular", "type": "text", "placeholder": "Número de celular (whatsapp)", "required": false }
+  ],
+  "sections": [
+    {
+      "title": "Sección Hematología",
+      "fields": [
+        { "name": "hemoglobin", "label": "Hemoglobina", "type": "text", "description": "V.N. 12 - 16 g/dL", "suffix": "g/dL" },
+        { "name": "hematocrit", "label": "Hematocrito", "type": "text", "description": "V.N. 36 - 50 %", "suffix": "%" },
+        { "name": "bloodGroup", "label": "Grupo Sanguíneo", "type": "select", "options": ["A", "B", "AB", "O"] },
+        { "name": "rhFactor", "label": "Factor Rh", "type": "select", "options": ["Positivo", "Negativo"] }
+      ]
+    },
+    {
+      "title": "Sección Inmunología",
+      "fields": [
+        { "name": "syphilisTest", "label": "Prueba Rápida de Sífilis", "type": "text", "placeholder": "No Reactivo" },
+        { "name": "hivTest", "label": "Prueba Rápida de V.I.H.", "type": "text", "placeholder": "No Reactivo" },
+        { "name": "pregnancyTest", "label": "Test de Embarazo en Sangre (Cualitativa)", "type": "text", "placeholder": "Negativo" }
+      ]
+    },
+    {
+      "title": "Sección Parasitología",
+      "fields": [
+        { "name": "parasitologyDirectExam", "label": "Examen Parasitológico Directo", "type": "textarea", "placeholder": "Observaciones de la muestra 1" }
+      ]
+    }
+  ]
+}

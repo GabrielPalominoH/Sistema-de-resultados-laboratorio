@@ -1,0 +1,59 @@
+{
+  "title": "Reporte de Bioquímica",
+  "description": "Ingrese los resultados del perfil bioquímico del paciente.",
+  "fields": [
+    { "name": "patientName", "label": "Paciente", "type": "text", "placeholder": "Nombre completo del paciente", "required": true },
+    { "name": "patientId", "label": "DNI", "type": "text", "placeholder": "Documento de identidad", "required": true },
+    { "name": "patientAge", "label": "Edad", "type": "number", "placeholder": "Edad del paciente", "required": true },
+    { "name": "hcn", "label": "HCN (Historia Clínica)", "type": "text", "placeholder": "Número de historia clínica", "required": true },
+    { "name": "sampleDate", "label": "Fecha de Muestra", "type": "date", "required": true },
+    { "name": "phone", "label": "Celular", "type": "text", "placeholder": "Número de celular (whatsapp)", "required": false }
+  ],
+  "sections": [
+    {
+      "title": "Perfil Metabólico y Renal",
+      "fields": [
+        { "name": "glucose", "label": "Glucosa", "type": "number", "description": "V.N. 70 - 110 mg/dl", "suffix": "mg/dl" },
+        { "name": "creatinine", "label": "Creatinina", "type": "number", "description": "Varón: 0.7 - 1.3 / Mujer: 0.6 - 1.1 mg/dl", "suffix": "mg/dl" },
+        { "name": "urea", "label": "Urea", "type": "number", "description": "V.N. 20 - 45 mg/dl", "suffix": "mg/dl" },
+        { "name": "uricAcid", "label": "Ácido Úrico", "type": "number", "description": "Varón: 2.5 - 6.0 / Mujer: 2.0 - 5.0 mg/dl", "suffix": "mg/dl" },
+        { "name": "postPrandialGlucose", "label": "Glucosa Post Prandial", "type": "number", "description": "mg/dl", "suffix": "mg/dl" }
+      ]
+    },
+    {
+      "title": "Perfil Lipídico",
+      "fields": [
+        { "name": "totalCholesterol", "label": "Colesterol Total", "type": "number", "description": "V.N. < 200 mg/dl", "suffix": "mg/dl" },
+        { "name": "hdl", "label": "Colesterol HDL", "type": "number", "description": "V.N. 40 - 60 mg/dl", "suffix": "mg/dl" },
+        { "name": "ldl", "label": "Colesterol LDL", "type": "number", "description": "V.N. < 129 mg/dl", "suffix": "mg/dl" },
+        { "name": "triglycerides", "label": "Triglicéridos", "type": "number", "description": "V.N. < 150 mg/dl", "suffix": "mg/dl" }
+      ]
+    },
+    {
+      "title": "Perfil Hepático y Enzimático",
+      "fields": [
+        { "name": "tgo", "label": "T.G.O.", "type": "number", "description": "Varón: Hasta 38 / Mujer: Hasta 32 U/L", "suffix": "U/L" },
+        { "name": "tgp", "label": "T.G.P.", "type": "number", "description": "Varón: Hasta 41 / Mujer: Hasta 31 U/L", "suffix": "U/L" },
+        { "name": "alkalinePhosphatase", "label": "Fosfatasa Alcalina", "type": "number", "description": "Adultos: 65-300 / Niños: Hasta 645 U/L", "suffix": "U/L" },
+        { "name": "amylase", "label": "Amilasa", "type": "number", "description": "V.N. < 120 UA/dl", "suffix": "UA/dl" },
+        { "name": "bilirubinTotal", "label": "Bilirrubina Total", "type": "number", "description": "V.N. 1.0 mg/dl", "suffix": "mg/dl" },
+        { "name": "bilirubinDirect", "label": "Bilirrubina Directa", "type": "number", "description": "V.N. < 0.2 mg/dl", "suffix": "mg/dl" },
+        { "name": "bilirubinIndirect", "label": "Bilirrubina Indirecta", "type": "number", "description": "mg/dl", "suffix": "mg/dl" }
+      ]
+    },
+    {
+      "title": "Proteínas",
+      "fields": [
+        { "name": "totalProteins", "label": "Proteínas Totales", "type": "number", "description": "V.N. 6.7 - 7.9 gr/dl", "suffix": "gr/dl" },
+        { "name": "albumin", "label": "Albúminas", "type": "number", "description": "V.N. 3.5 - 5.0 g/dL", "suffix": "g/dL" },
+        { "name": "globulins", "label": "Globulinas", "type": "number", "description": "V.N. 2.0 - 3.5 g/dL", "suffix": "g/dL" }
+      ]
+    },
+    {
+      "title": "Observaciones",
+      "fields": [
+        { "name": "observations", "label": "Observaciones Generales", "type": "textarea", "placeholder": "Anotar cualquier observación relevante sobre la muestra..." }
+      ]
+    }
+  ]
+}

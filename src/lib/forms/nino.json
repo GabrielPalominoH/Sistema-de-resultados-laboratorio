@@ -1,0 +1,51 @@
+{
+  "title": "Reporte de Examen Niño",
+  "description": "Ingrese los resultados del examen de niño.",
+  "fields": [
+    { "name": "patientName", "label": "Paciente", "type": "text", "placeholder": "Nombre completo del paciente", "required": true },
+    { "name": "patientId", "label": "DNI", "type": "text", "placeholder": "Documento de identidad", "required": true },
+    { "name": "patientAge", "label": "Edad", "type": "number", "placeholder": "Edad del paciente", "required": true },
+    { "name": "hcn", "label": "HCN (Historia Clínica)", "type": "text", "placeholder": "Número de historia clínica", "required": true },
+    { "name": "sampleDate", "label": "Fecha de Muestra", "type": "date", "required": true },
+    { "name": "phone", "label": "Celular", "type": "text", "placeholder": "Número de celular (whatsapp)", "required": false }
+  ],
+  "sections": [
+    {
+      "title": "Hematología",
+      "fields": [
+        { "name": "hemoglobin", "label": "Hemoglobina", "type": "number", "description": "V.N. 12 - 16 g/dl", "suffix": "g/dl" },
+        { "name": "hematocrit", "label": "Hematocrito", "type": "number", "description": "V.N. 36 - 50 %", "suffix": "%" }
+      ]
+    },
+    {
+      "title": "Microbiología (Moco Fecal / Reacción Inflamatoria)",
+      "fields": [
+        { "name": "macroColor", "label": "Color", "type": "text", "placeholder": "Color de la muestra" },
+        { "name": "macroConsistency", "label": "Consistencia", "type": "text", "placeholder": "Consistencia de la muestra" },
+        { "name": "macroMucus", "label": "Moco", "type": "text", "placeholder": "Presencia de moco" },
+        { "name": "macroBlood", "label": "Sangre", "type": "text", "placeholder": "Presencia de sangre" },
+        { "name": "microEpithelialCells", "label": "Células Epiteliales", "type": "text", "placeholder": "Resultado" },
+        { "name": "microRbc", "label": "Hematíes", "type": "text", "placeholder": "Glóbulos rojos" },
+        { "name": "microWbc", "label": "Leucocitos", "type": "text", "placeholder": "Glóbulos blancos" },
+        { "name": "microPyocytes", "label": "Piocitos", "type": "text", "placeholder": "Células de pus" },
+        { "name": "microBiota", "label": "Microbiota", "type": "text", "placeholder": "Flora intestinal" },
+        { "name": "microOther", "label": "Otros", "type": "text", "placeholder": "Otros hallazgos" }
+      ]
+    },
+    {
+      "title": "Parasitología",
+      "fields": [
+        { "name": "parasitologySample1", "label": "Examen Parasitológico - 1ra Muestra", "type": "text", "placeholder": "Resultado 1ra muestra" },
+        { "name": "parasitologySample2", "label": "Examen Parasitológico - 2da Muestra", "type": "text", "placeholder": "Resultado 2da muestra" },
+        { "name": "parasitologySample3", "label": "Examen Parasitológico - 3ra Muestra", "type": "text", "placeholder": "Resultado 3ra muestra" },
+        { "name": "grahamTest", "label": "Test de Graham", "type": "text", "placeholder": "Resultado (Oxiuros)" }
+      ]
+    },
+    {
+      "title": "Observaciones",
+      "fields": [
+        { "name": "observations", "label": "Observaciones Generales", "type": "textarea", "placeholder": "Anotar cualquier observación relevante sobre la muestra..." }
+      ]
+    }
+  ]
+}

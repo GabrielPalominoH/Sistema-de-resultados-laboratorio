@@ -1,0 +1,58 @@
+{
+  "title": "Reporte de Hemograma Completo",
+  "description": "Ingrese los resultados del hemograma completo del paciente.",
+  "fields": [
+    { "name": "patientName", "label": "Paciente", "type": "text", "placeholder": "Nombre completo del paciente", "required": true },
+    { "name": "patientId", "label": "DNI", "type": "text", "placeholder": "Documento de identidad", "required": true },
+    { "name": "patientAge", "label": "Edad", "type": "number", "placeholder": "Edad del paciente", "required": true },
+    { "name": "hcn", "label": "HCN (Historia Clínica)", "type": "text", "placeholder": "Número de historia clínica", "required": true },
+    { "name": "sampleDate", "label": "Fecha de Muestra", "type": "date", "required": true },
+    { "name": "phone", "label": "Celular", "type": "text", "placeholder": "Número de celular (whatsapp)", "required": false }
+  ],
+  "sections": [
+    {
+      "title": "Hemograma Completo",
+      "fields": [
+        { "name": "hemoglobin", "label": "Hemoglobina", "type": "number", "description": "V.N. 12.0 - 16.0 g/dL", "suffix": "g/dL" },
+        { "name": "hematocrit", "label": "Hematocrito", "type": "number", "description": "V.N. 36.0 - 50.0 %", "suffix": "%" },
+        { "name": "rbcCount", "label": "Recuento de Hematíes", "type": "number", "description": "V.N. 4.20 - 6.20 x10⁶/uL", "suffix": "x10⁶/uL" },
+        { "name": "wbcCount", "label": "Recuento de Leucocitos", "type": "number", "description": "V.N. 4.5 - 10.0 x10³/uL", "suffix": "x10³/uL" }
+      ]
+    },
+    {
+      "title": "Fórmula Leucocitaria",
+      "fields": [
+        { "name": "neutrophilsBanded", "label": "Neutrófilos (Abastonados)", "type": "number", "description": "V.N. 0 - 5%", "suffix": "%" },
+        { "name": "neutrophilsSegmented", "label": "Neutrófilos (Segmentados)", "type": "number", "description": "V.N. 44 - 70%", "suffix": "%" },
+        { "name": "lymphocytes", "label": "Linfocitos", "type": "number", "description": "V.N. 18 - 42%", "suffix": "%" },
+        { "name": "monocytes", "label": "Monocitos", "type": "number", "description": "V.N. 3 - 15%", "suffix": "%" },
+        { "name": "eosinophils", "label": "Eosinófilos", "type": "number", "description": "V.N. 0 - 5%", "suffix": "%" },
+        { "name": "basophils", "label": "Basófilos", "type": "number", "description": "V.N. 0 - 2%", "suffix": "%" },
+        { "name": "metamyelocytes", "label": "Metamielocitos", "type": "number", "description": "V.N. 0%", "suffix": "%" },
+        { "name": "myelocytes", "label": "Mielocitos", "type": "number", "description": "V.N. 0%", "suffix": "%" },
+        { "name": "promyelocytes", "label": "Promielocitos", "type": "number", "description": "V.N. 0%", "suffix": "%" },
+        { "name": "blasts", "label": "Blastos", "type": "number", "description": "V.N. 0%", "suffix": "%" }
+      ]
+    },
+    {
+      "title": "Constantes Corpusculares",
+      "fields": [
+        { "name": "mcv", "label": "V.C.M.", "type": "number", "description": "V.N. 80.0 - 96.0 fL", "suffix": "fL" },
+        { "name": "mch", "label": "H.C.M.", "type": "number", "description": "V.N. 27.0 - 31.0 pg", "suffix": "pg" },
+        { "name": "mchc", "label": "C.H.C.M.", "type": "number", "description": "V.N. 32.0 - 36.0 g/dL", "suffix": "g/dL" }
+      ]
+    },
+    {
+      "title": "Recuento de Plaquetas",
+      "fields": [
+        { "name": "plateletCount", "label": "Recuento de Plaquetas", "type": "number", "description": "V.N. 150.0 - 450.0 x10³/uL", "suffix": "x10³/uL" }
+      ]
+    },
+    {
+      "title": "Observaciones",
+      "fields": [
+        { "name": "observations", "label": "Observaciones Generales", "type": "textarea", "placeholder": "Anotar cualquier observación relevante sobre la muestra..." }
+      ]
+    }
+  ]
+}
