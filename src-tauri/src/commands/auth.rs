@@ -122,9 +122,19 @@ pub async fn update_password(
         .bind(&user_id)
         .execute(db.inner())
         .await
-        .map_err(|e| format!("Error al actualizar password: {}", e))?;
+    .map_err(|e| format!("Error al actualizar password: {}", e))?;
 
     Ok(())
+}
+
+#[tauri::command]
+pub async fn has_users(db: State<'_, SqlitePool>) -> Result<bool, String> {
+    let count: (i64,) = sqlx::query_as("SELECT COUNT(*) FROM user_profiles")
+        .fetch_one(db.inner())
+        .await
+        .map_err(|e| format!("Error al contar usuarios: {}", e))?;
+
+    Ok(count.0 > 0)
 }
 
 #[tauri::command]

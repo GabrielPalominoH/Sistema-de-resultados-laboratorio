@@ -1,9 +1,11 @@
+import { useState, useEffect } from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { SidebarProvider, Sidebar, SidebarInset } from '@/components/ui/sidebar'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import { Header } from '@/components/header'
 import { DashboardSidebarNav } from '@/components/dashboard-sidebar-nav'
 import LoginPage from '@/pages/LoginPage'
+import FirstRunPage from '@/pages/FirstRunPage'
 import DashboardPage from '@/pages/DashboardPage'
 import NewExamPage from '@/pages/NewExamPage'
 import EditExamPage from '@/pages/EditExamPage'
@@ -14,6 +16,8 @@ import UsersPage from '@/pages/UsersPage'
 import AccountPage from '@/pages/AccountPage'
 import AccountPasswordPage from '@/pages/AccountPasswordPage'
 import { useAuth } from '@/lib/auth'
+import { hasUsers } from '@/lib/db'
+import { Loader2 } from 'lucide-react'
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { user } = useAuth()
@@ -35,15 +39,64 @@ function DashboardLayout({ children }: { children: React.ReactNode }) {
   )
 }
 
+function LoadingScreen() {
+  return (
+    <div className="flex min-h-screen items-center justify-center bg-background">
+      <Loader2 className="h-8 w-8 animate-spin text-primary" />
+    </div>
+  )
+}
+
 export default function App() {
   const { user } = useAuth()
+  const [checkingFirstRun, setCheckingFirstRun] = useState(true)
+  const [isFirstRun, setIsFirstRun] = useState(false)
+
+  useEffect(() => {
+    if (user) {
+      setCheckingFirstRun(false)
+      return
+    }
+
+    let cancelled = false
+    hasUsers()
+      .then((exists) => {
+        if (!cancelled) {
+          setIsFirstRun(!exists)
+          setCheckingFirstRun(false)
+        }
+      })
+      .catch(() => {
+        // If the check fails, assume there are users (show normal login)
+        if (!cancelled) {
+          setIsFirstRun(false)
+          setCheckingFirstRun(false)
+        }
+      })
+
+    return () => { cancelled = true }
+  }, [user])
+
+  if (checkingFirstRun) {
+    return <LoadingScreen />
+  }
 
   return (
     <TooltipProvider>
       <Routes>
+        {/* First-run registration (no users in DB) */}
+        {isFirstRun && (
+          <Route path="*" element={<FirstRunPage />} />
+        )}
+
+        {/* Normal auth routes */}
         <Route
           path="/login"
           element={user ? <Navigate to="/dashboard" replace /> : <LoginPage />}
+        />
+        <Route
+          path="/first-run"
+          element={isFirstRun ? <FirstRunPage /> : <Navigate to="/login" replace />}
         />
         <Route
           path="/dashboard"

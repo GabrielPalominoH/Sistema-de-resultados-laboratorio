@@ -3,6 +3,10 @@ import type { AuthUser, UserProfile, LabResult, ExamSample, PatientLookupResult,
 
 // ── Auth ──────────────────────────────────────────────────────────
 
+export function hasUsers() {
+  return invoke<boolean>('has_users');
+}
+
 export function login(username: string, password: string) {
   return invoke<AuthUser>('login', { username, password });
 }

@@ -32,6 +32,7 @@ pub fn run() {
             commands::auth::create_user,
             commands::auth::update_password,
             commands::auth::update_password_with_current,
+            commands::auth::has_users,
             // Users
             commands::users::get_all_users,
             commands::users::update_user_role,
