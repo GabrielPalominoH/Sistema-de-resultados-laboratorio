@@ -26,7 +26,7 @@ export default function AccountPasswordPage() {
       toast({
         variant: 'destructive',
         title: 'Error',
-        description: 'Las contrasenas no coinciden.',
+        description: 'Las contraseñas no coinciden.',
       });
       return;
     }
@@ -35,7 +35,7 @@ export default function AccountPasswordPage() {
       toast({
         variant: 'destructive',
         title: 'Error',
-        description: 'La contrasena debe tener al menos 6 caracteres.',
+        description: 'La contraseña debe tener al menos 6 caracteres.',
       });
       return;
     }
@@ -44,7 +44,7 @@ export default function AccountPasswordPage() {
       toast({
         variant: 'destructive',
         title: 'Error',
-        description: 'La nueva contrasena debe ser diferente a la actual.',
+        description: 'La nueva contraseña debe ser diferente a la actual.',
       });
       return;
     }
@@ -60,7 +60,7 @@ export default function AccountPasswordPage() {
       toast({
         variant: 'destructive',
         title: 'Error',
-        description: error instanceof Error ? error.message : 'Error al actualizar la contrasena',
+        description: error instanceof Error ? error.message : 'Error al actualizar la contraseña',
       });
     } finally {
       setSubmitting(false);
@@ -71,50 +71,50 @@ export default function AccountPasswordPage() {
     <div className="max-w-xl mx-auto space-y-4">
       <Button variant="outline" onClick={() => navigate('/dashboard/account')}>
         <ArrowLeft className="mr-2 h-4 w-4" />
-        Volver a configuracion
+        Volver a configuración
       </Button>
 
       <Card>
         <CardHeader>
-          <CardTitle>Cambiar contrasena</CardTitle>
-          <CardDescription>Ingresa tu contrasena actual y define una nueva.</CardDescription>
+          <CardTitle>Cambiar contraseña</CardTitle>
+          <CardDescription>Ingresa tu contraseña actual y define una nueva.</CardDescription>
         </CardHeader>
         <CardContent>
           <form className="space-y-4" onSubmit={handleSubmit}>
             <div className="space-y-2">
-              <Label htmlFor="currentPassword">Contrasena actual</Label>
+              <Label htmlFor="currentPassword">Contraseña actual</Label>
               <Input
                 id="currentPassword"
                 type="password"
                 value={currentPassword}
                 onChange={(event) => setCurrentPassword(event.target.value)}
-                placeholder="Ingresa tu contrasena actual"
+                placeholder="Ingresa tu contraseña actual"
                 autoComplete="current-password"
                 required
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="newPassword">Nueva contrasena</Label>
+              <Label htmlFor="newPassword">Nueva contraseña</Label>
               <Input
                 id="newPassword"
                 type="password"
                 value={newPassword}
                 onChange={(event) => setNewPassword(event.target.value)}
-                placeholder="Minimo 6 caracteres"
+                placeholder="Mínimo 6 caracteres"
                 autoComplete="new-password"
                 required
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="confirmPassword">Confirmar contrasena</Label>
+              <Label htmlFor="confirmPassword">Confirmar contraseña</Label>
               <Input
                 id="confirmPassword"
                 type="password"
                 value={confirmPassword}
                 onChange={(event) => setConfirmPassword(event.target.value)}
-                placeholder="Repite la nueva contrasena"
+                placeholder="Repite la nueva contraseña"
                 autoComplete="new-password"
                 required
               />
@@ -127,7 +127,7 @@ export default function AccountPasswordPage() {
                   Guardando...
                 </>
               ) : (
-                'Actualizar contrasena'
+                'Actualizar contraseña'
               )}
             </Button>
           </form>

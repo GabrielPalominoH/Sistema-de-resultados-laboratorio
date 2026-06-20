@@ -1,6 +1,6 @@
 export function showPersistSuccessToast(toast: (props: { title?: string; description?: string; variant?: 'default' | 'destructive' }) => void) {
   toast({
-    title: 'Exito',
+    title: 'Éxito',
     description: 'Registro guardado exitosamente.',
   });
 }

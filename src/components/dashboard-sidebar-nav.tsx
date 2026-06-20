@@ -13,16 +13,16 @@ import { Button } from '@/components/ui/button'
 const navItems = [
   { href: '/dashboard', icon: Home, label: 'Inicio' },
   { href: '/dashboard/results', icon: FileText, label: 'Resultados' },
-  { href: '/dashboard/metrics', icon: BarChart3, label: 'Metricas' },
+  { href: '/dashboard/metrics', icon: BarChart3, label: 'Métricas' },
 ]
 
 const examItems = [
-  { href: '/dashboard/exam/foods', icon: Apple, label: 'Analisis de Alimentos' },
+  { href: '/dashboard/exam/foods', icon: Apple, label: 'Análisis de Alimentos' },
   { href: '/dashboard/exam/hemograma-completo', icon: TestTubeDiagonal, label: 'Hemograma Completo' },
   { href: '/dashboard/exam/deteccion-sangre-oculta', icon: Search, label: 'Sangre Oculta en Heces' },
   { href: '/dashboard/exam/examen-general', icon: FlaskConical, label: 'Examen General' },
-  { href: '/dashboard/exam/bioquimico', icon: FlaskConical, label: 'Bioquimico' },
-  { href: '/dashboard/exam/nino', icon: UserIcon, label: 'Examen Nino' },
+  { href: '/dashboard/exam/bioquimico', icon: FlaskConical, label: 'Bioquímico' },
+  { href: '/dashboard/exam/nino', icon: UserIcon, label: 'Examen Niño' },
 ]
 
 function isActivePath(pathname: string, href: string): boolean {
@@ -67,7 +67,7 @@ export function DashboardSidebarNav() {
       </div>
 
       <div className="min-h-0 flex-1 overflow-y-auto">
-        <p className="px-4 py-2 text-xs text-sidebar-foreground/70">Examenes</p>
+        <p className="px-4 py-2 text-xs text-sidebar-foreground/70">Exámenes</p>
         <SidebarMenu className="pb-2">
           {examItems.map((item) => (
             <NavLink key={item.href} href={item.href} icon={item.icon} label={item.label} />

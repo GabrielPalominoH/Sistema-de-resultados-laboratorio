@@ -1,6 +1,6 @@
 {
   "title": "Detección Cualitativa de Sangre Oculta en Heces",
-  "description": "Test de Inmunoensayo Cromatografico para detección de sangre oculta en heces.",
+  "description": "Test de Inmunoensayo Cromatográfico para detección de sangre oculta en heces.",
   "fields": [
     { "name": "patientName", "label": "Paciente", "type": "text", "placeholder": "Nombre completo del paciente", "required": true },
     { "name": "patientId", "label": "DNI", "type": "text", "placeholder": "Documento de identidad", "required": true },

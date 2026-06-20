@@ -29,8 +29,8 @@
       "fields": [
         { "name": "neutrophilsBanded", "label": "Abastonados", "type": "number", "description": "V.N. 0 - 5 %", "suffix": "%" },
         { "name": "neutrophilsSegmented", "label": "Segmentados", "type": "number", "description": "V.N. 44 - 70 %", "suffix": "%" },
-        { "name": "eosinophils", "label": "Eosinofilos", "type": "number", "description": "V.N. 0 - 5 %", "suffix": "%" },
-        { "name": "basophils", "label": "Basofilos", "type": "number", "description": "V.N. 0 - 2 %", "suffix": "%" },
+        { "name": "eosinophils", "label": "Eosinófilos", "type": "number", "description": "V.N. 0 - 5 %", "suffix": "%" },
+        { "name": "basophils", "label": "Basófilos", "type": "number", "description": "V.N. 0 - 2 %", "suffix": "%" },
         { "name": "monocytes", "label": "Monocitos", "type": "number", "description": "V.N. 3 - 15 %", "suffix": "%" },
         { "name": "lymphocytes", "label": "Linfocitos", "type": "number", "description": "V.N. 18 - 42 %", "suffix": "%" }
       ]

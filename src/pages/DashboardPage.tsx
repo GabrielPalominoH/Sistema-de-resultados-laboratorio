@@ -4,12 +4,12 @@ import { Button } from '@/components/ui/button'
 import { Apple, FileText, TestTubeDiagonal, Search, FlaskConical, User } from 'lucide-react'
 
 const examTypes = [
-  { name: 'Analisis de Alimentos', href: '/dashboard/exam/foods', icon: Apple, description: 'Analisis clinico general' },
-  { name: 'Hemograma Completo', href: '/dashboard/exam/hemograma-completo', icon: TestTubeDiagonal, description: 'Analisis de componentes sanguineos' },
-  { name: 'Sangre Oculta en Heces', href: '/dashboard/exam/deteccion-sangre-oculta', icon: Search, description: 'Test de inmunoensayo cromatografico' },
-  { name: 'Examen General', href: '/dashboard/exam/examen-general', icon: FlaskConical, description: 'Panel completo de analisis general' },
-  { name: 'Bioquimico', href: '/dashboard/exam/bioquimico', icon: FlaskConical, description: 'Perfil bioquimico del paciente' },
-  { name: 'Examen Nino', href: '/dashboard/exam/nino', icon: User, description: 'Registro pediatrico con parametros clinicos' },
+  { name: 'Análisis de Alimentos', href: '/dashboard/exam/foods', icon: Apple, description: 'Análisis clínico general' },
+  { name: 'Hemograma Completo', href: '/dashboard/exam/hemograma-completo', icon: TestTubeDiagonal, description: 'Análisis de componentes sanguíneos' },
+  { name: 'Sangre Oculta en Heces', href: '/dashboard/exam/deteccion-sangre-oculta', icon: Search, description: 'Test de inmunoensayo cromatográfico' },
+  { name: 'Examen General', href: '/dashboard/exam/examen-general', icon: FlaskConical, description: 'Panel completo de análisis general' },
+  { name: 'Bioquímico', href: '/dashboard/exam/bioquimico', icon: FlaskConical, description: 'Perfil bioquímico del paciente' },
+  { name: 'Examen Niño', href: '/dashboard/exam/nino', icon: User, description: 'Registro pediátrico con parámetros clínicos' },
 ]
 
 export default function DashboardPage() {

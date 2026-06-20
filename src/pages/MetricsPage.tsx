@@ -2,8 +2,11 @@ import { useEffect, useMemo, useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
 import { useMetrics, type FilterOptions } from '@/hooks/use-metrics';
-import { BarChart3, Calendar, TrendingUp, Users } from 'lucide-react';
+import { BarChart3, Calendar, TrendingUp, Users, X } from 'lucide-react';
 import { PatientHistoryTab } from '@/components/patient-history-tab';
 import {
   Bar,
@@ -19,61 +22,99 @@ import {
 
 const chartPalette = ['#2563eb', '#16a34a', '#dc2626', '#d97706', '#7c3aed', '#0891b2', '#c2410c'];
 
-function formatPeriodValue(dateFrom?: string): string {
-  if (!dateFrom) return 'all';
+function todayStr(): string {
+  return new Date().toISOString().split('T')[0];
+}
 
-  const diffMs = Date.now() - new Date(dateFrom).getTime();
-  if (diffMs < 86_400_000) return 'today';
-  if (diffMs < 604_800_000) return 'week';
-  if (diffMs < 2_592_000_000) return 'month';
-  return 'year';
+function nDaysAgo(n: number): string {
+  const d = new Date();
+  d.setDate(d.getDate() - n);
+  return d.toISOString().split('T')[0];
 }
 
 function formatNumber(value: number): string {
   return Number.isFinite(value) ? value.toFixed(1) : '0.0';
 }
 
+function getPeriodLabel(dateFrom: string, dateTo: string): string {
+  if (!dateFrom && !dateTo) return 'all';
+  if (dateFrom === dateTo && dateFrom === todayStr()) return 'today';
+  const diffMs = Date.now() - new Date(dateFrom + 'T12:00:00').getTime();
+  if (diffMs < 7 * 86_400_000) return 'week';
+  if (diffMs < 30 * 86_400_000) return 'month';
+  return 'year';
+}
+
 export default function MetricsPage() {
   const { metrics, loading, error, refetch } = useMetrics();
   const [filters, setFilters] = useState<FilterOptions>({});
   const [selectedIndicator, setSelectedIndicator] = useState<string>('');
+  const [dateFrom, setDateFrom] = useState('');
+  const [dateTo, setDateTo] = useState('');
 
-  const handleFilterChange = (key: string, value: string) => {
-    const newFilters = { ...filters };
+  const applyDateFilter = (from: string, to: string, currentFilters: FilterOptions) => {
+    const newFilters = { ...currentFilters };
+    if (from || to) {
+      newFilters.dateRange = {};
+      if (from) newFilters.dateRange.from = from;
+      if (to) newFilters.dateRange.to = to;
+    } else {
+      delete newFilters.dateRange;
+    }
+    setFilters(newFilters);
+    refetch(newFilters);
+  };
 
-    if (key === 'examType') {
-      newFilters.examType = value === 'all' ? undefined : value;
-    } else if (key === 'period') {
-      if (value === 'all') {
-        newFilters.dateRange = undefined;
-      } else {
-        const now = new Date();
-        const from = new Date();
-
-        switch (value) {
-          case 'today':
-            from.setHours(0, 0, 0, 0);
-            break;
-          case 'week':
-            from.setDate(from.getDate() - 7);
-            break;
-          case 'month':
-            from.setMonth(from.getMonth() - 1);
-            break;
-          case 'year':
-            from.setFullYear(from.getFullYear() - 1);
-            break;
-          default:
-            break;
-        }
-
-        newFilters.dateRange = {
-          from: from.toISOString(),
-          to: now.toISOString(),
-        };
-      }
+  const handlePeriodShortcut = (value: string) => {
+    if (value === 'all') {
+      setDateFrom('');
+      setDateTo('');
+      const newFilters = { ...filters };
+      delete newFilters.dateRange;
+      setFilters(newFilters);
+      refetch(newFilters);
+      return;
     }
 
+    const today = todayStr();
+    let from = today;
+
+    switch (value) {
+      case 'today':
+        break;
+      case 'week':
+        from = nDaysAgo(7);
+        break;
+      case 'month':
+        from = nDaysAgo(30);
+        break;
+      case 'year':
+        from = nDaysAgo(365);
+        break;
+    }
+
+    setDateFrom(from);
+    setDateTo(today);
+
+    const newFilters = { ...filters, dateRange: { from, to: today } };
+    setFilters(newFilters);
+    refetch(newFilters);
+  };
+
+  const handleDateFromChange = (value: string) => {
+    setDateFrom(value);
+    applyDateFilter(value, dateTo, filters);
+  };
+
+  const handleDateToChange = (value: string) => {
+    setDateTo(value);
+    applyDateFilter(dateFrom, value, filters);
+  };
+
+  const clearFilters = () => {
+    setDateFrom('');
+    setDateTo('');
+    const newFilters: FilterOptions = {};
     setFilters(newFilters);
     refetch(newFilters);
   };
@@ -173,16 +214,23 @@ export default function MetricsPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Metricas del Sistema</h1>
+          <h1 className="text-3xl font-bold tracking-tight">Métricas del Sistema</h1>
           <p className="text-muted-foreground">KPIs y gráficas para decisiones clínicas y campañas preventivas</p>
         </div>
       </div>
 
       <Card>
         <CardContent className="p-4">
-          <div className="flex flex-wrap gap-4">
-            <div className="w-full md:w-64">
-              <Select value={filters.examType || 'all'} onValueChange={(v) => handleFilterChange('examType', v)}>
+          <div className="flex flex-wrap items-end gap-4">
+            <div className="w-full md:w-56">
+              <Label className="mb-1.5 block text-xs text-muted-foreground">Tipo de Examen</Label>
+              <Select value={filters.examType || 'all'} onValueChange={(v) => {
+                const nf = { ...filters };
+                if (v === 'all') delete nf.examType;
+                else nf.examType = v;
+                setFilters(nf);
+                refetch(nf);
+              }}>
                 <SelectTrigger>
                   <SelectValue placeholder="Tipo de Examen" />
                 </SelectTrigger>
@@ -197,17 +245,42 @@ export default function MetricsPage() {
               </Select>
             </div>
 
+            <div>
+              <Label className="mb-1.5 block text-xs text-muted-foreground">Desde</Label>
+              <Input
+                type="date"
+                value={dateFrom}
+                onChange={(e) => handleDateFromChange(e.target.value)}
+                className="w-44"
+              />
+            </div>
+
+            <div>
+              <Label className="mb-1.5 block text-xs text-muted-foreground">Hasta</Label>
+              <Input
+                type="date"
+                value={dateTo}
+                onChange={(e) => handleDateToChange(e.target.value)}
+                className="w-44"
+              />
+            </div>
+
+            <Button variant="outline" size="icon" onClick={clearFilters} title="Limpiar filtros">
+              <X className="h-4 w-4" />
+            </Button>
+
             <div className="w-full md:w-56">
-              <Select value={formatPeriodValue(filters.dateRange?.from)} onValueChange={(v) => handleFilterChange('period', v)}>
+              <Label className="mb-1.5 block text-xs text-muted-foreground">Acceso rápido</Label>
+              <Select value={getPeriodLabel(dateFrom, dateTo)} onValueChange={handlePeriodShortcut}>
                 <SelectTrigger>
                   <SelectValue placeholder="Periodo" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">Todo el tiempo</SelectItem>
                   <SelectItem value="today">Hoy</SelectItem>
-                  <SelectItem value="week">Ultima semana</SelectItem>
-                  <SelectItem value="month">Ultimo mes</SelectItem>
-                  <SelectItem value="year">Ultimo ano</SelectItem>
+                  <SelectItem value="week">Última semana</SelectItem>
+                  <SelectItem value="month">Último mes</SelectItem>
+                  <SelectItem value="year">Último año</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -218,7 +291,7 @@ export default function MetricsPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">Total Examenes</CardTitle>
+            <CardTitle className="text-sm font-medium">Total Exámenes</CardTitle>
             <BarChart3 className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -238,7 +311,7 @@ export default function MetricsPage() {
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">Examenes del Mes</CardTitle>
+            <CardTitle className="text-sm font-medium">Exámenes del Mes</CardTitle>
             <Calendar className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -252,7 +325,7 @@ export default function MetricsPage() {
       <Tabs defaultValue="activity" className="space-y-4">
         <TabsList>
           <TabsTrigger value="activity">Actividad</TabsTrigger>
-          <TabsTrigger value="clinical">Indicadores Clinicos</TabsTrigger>
+          <TabsTrigger value="clinical">Indicadores Clínicos</TabsTrigger>
           <TabsTrigger value="users">Por Personal</TabsTrigger>
           <TabsTrigger value="history">Historial de Paciente</TabsTrigger>
         </TabsList>
@@ -261,7 +334,7 @@ export default function MetricsPage() {
           <div className="grid grid-cols-1 gap-4">
             <Card>
               <CardHeader>
-                <CardTitle>Examenes Mas Realizados</CardTitle>
+                <CardTitle>Exámenes Más Realizados</CardTitle>
                 <CardDescription>Top de examenes por volumen</CardDescription>
               </CardHeader>
               <CardContent className="h-[450px]">
@@ -271,7 +344,7 @@ export default function MetricsPage() {
                     <XAxis type="number" />
                     <YAxis type="category" dataKey="type" width={170} tick={{ fontSize: 12 }} />
                     <Tooltip />
-                    <Bar dataKey="count" name="Examenes">
+                    <Bar dataKey="count" name="Exámenes">
                       {examTypeChartData.map((_, index) => (
                         <Cell key={`type-${index}`} fill={chartPalette[index % chartPalette.length]} />
                       ))}
@@ -299,7 +372,7 @@ export default function MetricsPage() {
                     <SelectContent>
                       {(metrics?.indicatorOptions || []).map((option) => (
                         <SelectItem key={option.key} value={option.key}>
-                          {option.label} ({option.count}) {option.type === 'numeric' ? '(numérico)' : '(catégorico)'}
+                          {option.label} ({option.count}) {option.type === 'numeric' ? '(numérico)' : '(categórico)'}
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -417,7 +490,7 @@ export default function MetricsPage() {
         <TabsContent value="users" className="space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle>Examenes por Personal</CardTitle>
+              <CardTitle>Exámenes por Personal</CardTitle>
               <CardDescription>Carga de registros por usuario del sistema</CardDescription>
             </CardHeader>
             <CardContent>

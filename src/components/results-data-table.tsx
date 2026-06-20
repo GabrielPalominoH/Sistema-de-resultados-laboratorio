@@ -339,10 +339,12 @@ export function ResultsDataTable({ data, onDelete }: ResultsDataTableProps) {
             className="hidden"
             onChange={handleImportFile}
           />
+          {/* Botón Importar Excel oculto visualmente
           <Button variant="outline" onClick={() => fileInputRef.current?.click()}>
             <Upload className="mr-2 h-4 w-4" />
             Importar Excel
           </Button>
+          */}
         </div>
         <Button
           variant="outline"

@@ -2,16 +2,16 @@ const exactTitles: Record<string, string> = {
   '/': 'Inicio',
   '/dashboard': 'Inicio',
   '/dashboard/results': 'Resultados',
-  '/dashboard/metrics': 'Metricas',
-  '/dashboard/users': 'Gestion de Usuarios',
-  '/dashboard/account': 'Configuracion de Cuenta',
-  '/dashboard/account/password': 'Cambiar Contrasena',
-  '/dashboard/exam/foods': 'Analisis de Alimentos',
+  '/dashboard/metrics': 'Métricas',
+  '/dashboard/users': 'Gestión de Usuarios',
+  '/dashboard/account': 'Configuración de Cuenta',
+  '/dashboard/account/password': 'Cambiar Contraseña',
+  '/dashboard/exam/foods': 'Análisis de Alimentos',
   '/dashboard/exam/hemograma-completo': 'Hemograma Completo',
   '/dashboard/exam/deteccion-sangre-oculta': 'Sangre Oculta en Heces',
   '/dashboard/exam/examen-general': 'Examen General',
-  '/dashboard/exam/bioquimico': 'Bioquimico',
-  '/dashboard/exam/nino': 'Examen Nino',
+  '/dashboard/exam/bioquimico': 'Bioquímico',
+  '/dashboard/exam/nino': 'Examen Niño',
 };
 
 export function getTitleFromPathname(pathname: string): string {

@@ -48,7 +48,7 @@ export interface ExamMetrics {
 
 export interface DateRange {
   from: string;
-  to: string;
+  to?: string;
 }
 
 export interface FilterOptions {
@@ -164,17 +164,15 @@ export function useMetrics() {
         rows = rows.filter(r => r.examType === filters.examType);
       }
       if (filters?.dateRange?.from) {
-        const from = new Date(filters.dateRange.from).getTime();
         rows = rows.filter(r => {
-          const dt = r.createdAt || r.date;
-          return dt ? new Date(dt).getTime() >= from : false;
+          const d = r.date || r.createdAt?.split(' ')[0] || '';
+          return d >= filters.dateRange!.from;
         });
       }
       if (filters?.dateRange?.to) {
-        const to = new Date(filters.dateRange.to).getTime();
         rows = rows.filter(r => {
-          const dt = r.createdAt || r.date;
-          return dt ? new Date(dt).getTime() <= to : false;
+          const d = r.date || r.createdAt?.split(' ')[0] || '';
+          return d <= filters.dateRange!.to;
         });
       }
       if (filters?.userId) {
@@ -194,14 +192,11 @@ export function useMetrics() {
         const examType = exam.examType || 'Unknown';
         examsByType[examType] = (examsByType[examType] || 0) + 1;
 
-        const dateStr = exam.createdAt || exam.date;
-        const createdAt = dateStr ? new Date(dateStr) : null;
-        if (createdAt) {
-          const day = createdAt.toISOString().split('T')[0];
-          const month = `${createdAt.getFullYear()}-${String(createdAt.getMonth() + 1).padStart(2, '0')}`;
-          const year = createdAt.getFullYear().toString();
-
-          examsByDay[day] = (examsByDay[day] || 0) + 1;
+        const dateStr = exam.date || (exam.createdAt ? exam.createdAt.split(' ')[0] : '');
+        if (dateStr) {
+          examsByDay[dateStr] = (examsByDay[dateStr] || 0) + 1;
+          const month = dateStr.slice(0, 7);
+          const year = dateStr.slice(0, 4);
           examsByMonth[month] = (examsByMonth[month] || 0) + 1;
           examsByYear[year] = (examsByYear[year] || 0) + 1;
         }

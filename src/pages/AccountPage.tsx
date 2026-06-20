@@ -9,9 +9,9 @@ export default function AccountSettingsPage() {
   return (
     <div className="max-w-3xl mx-auto space-y-6">
       <div>
-        <h2 className="text-2xl font-semibold tracking-tight">Configuracion de Cuenta</h2>
+        <h2 className="text-2xl font-semibold tracking-tight">Configuración de Cuenta</h2>
         <p className="text-sm text-muted-foreground">
-          Selecciona una opcion para administrar tu cuenta.
+          Selecciona una opción para administrar tu cuenta.
         </p>
       </div>
 
@@ -25,7 +25,7 @@ export default function AccountSettingsPage() {
         </CardHeader>
         <CardContent>
           <Button onClick={() => navigate('/dashboard/account/password')}>
-            Cambiar contrasena
+            Cambiar contraseña
           </Button>
         </CardContent>
       </Card>

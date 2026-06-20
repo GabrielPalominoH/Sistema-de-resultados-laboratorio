@@ -17,6 +17,7 @@ import AccountPage from '@/pages/AccountPage'
 import AccountPasswordPage from '@/pages/AccountPasswordPage'
 import { useAuth } from '@/lib/auth'
 import { hasUsers } from '@/lib/db'
+import { Toaster } from '@/components/ui/toaster'
 import { Loader2 } from 'lucide-react'
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
@@ -96,6 +97,7 @@ export default function App() {
 
   return (
     <TooltipProvider>
+      <Toaster />
       <Routes>
         {/* First-run: everything redirects to registration */}
         {isFirstRun ? (

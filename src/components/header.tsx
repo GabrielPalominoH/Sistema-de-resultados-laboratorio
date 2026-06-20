@@ -39,7 +39,7 @@ export function Header() {
           <Button variant="ghost" className="h-10 rounded-full px-3">
             <span className="mr-2 max-w-[180px] truncate text-sm font-medium">{displayName}</span>
             <User className="h-5 w-5" />
-            <span className="sr-only">Menu de usuario</span>
+            <span className="sr-only">Menú de usuario</span>
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-56">
@@ -64,21 +64,21 @@ export function Header() {
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={() => navigate('/dashboard/account')}>
             <Settings className="mr-2 h-4 w-4" />
-            <span>Configuracion de Cuenta</span>
+            <span>Configuración de Cuenta</span>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           {isAdmin && (
             <>
               <DropdownMenuItem onClick={() => navigate('/dashboard/users')}>
                 <Users className="mr-2 h-4 w-4" />
-                <span>Gestion de Usuarios</span>
+                <span>Gestión de Usuarios</span>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
             </>
           )}
           <DropdownMenuItem className="cursor-pointer text-destructive" onClick={() => { logout(); navigate('/login') }}>
             <LogOut className="mr-2 h-4 w-4" />
-            <span>Cerrar Sesion</span>
+            <span>Cerrar Sesión</span>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
