@@ -16,6 +16,7 @@ import UsersPage from '@/pages/UsersPage'
 import AccountPage from '@/pages/AccountPage'
 import AccountPasswordPage from '@/pages/AccountPasswordPage'
 import { useAuth } from '@/lib/auth'
+import { getCurrentWindow } from '@tauri-apps/api/window'
 import { hasUsers } from '@/lib/db'
 import { Toaster } from '@/components/ui/toaster'
 import { Loader2 } from 'lucide-react'
@@ -49,7 +50,7 @@ function LoadingScreen() {
 }
 
 export default function App() {
-  const { user } = useAuth()
+  const { user, logout } = useAuth()
   const [checkingFirstRun, setCheckingFirstRun] = useState(true)
   const [isFirstRun, setIsFirstRun] = useState(false)
   const firstRunChecked = useRef(false)
@@ -90,6 +91,15 @@ export default function App() {
 
     return () => { cancelled = true }
   }, [user])
+
+  // Clear session when window is closed
+  useEffect(() => {
+    let unlisten: (() => void) | undefined
+    getCurrentWindow().onCloseRequested(() => {
+      logout()
+    }).then((fn) => { unlisten = fn })
+    return () => { unlisten?.() }
+  }, [logout])
 
   if (checkingFirstRun) {
     return <LoadingScreen />
